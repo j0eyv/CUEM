@@ -1,5 +1,8 @@
 # 1. Custom User Environment Manager
 
+> [!Important]
+> The tool is still in development in a private repository. Until (first) release this repository only holds a readme file.
+
 This tool automates the deployment of configurations during logon actions on Windows machines. It connects to Microsoft Graph using Entra ID credentials and performs tasks such as drive mapping, printer mapping and registry key management based on group memberships.
 
 > [!NOTE]
