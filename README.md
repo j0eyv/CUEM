@@ -1,8 +1,5 @@
 # 1. Custom User Environment Manager
 
-> [!Important]
-> The tool is still in development in a private repository. Until (first) release this repository only holds a readme file.
-
 This tool automates the deployment of configurations during logon actions on Windows machines. It connects to Microsoft Graph using Entra ID credentials and performs tasks such as drive mapping, printer mapping and registry key management based on group memberships.
 
 > [!NOTE]
@@ -17,6 +14,9 @@ This tool automates the deployment of configurations during logon actions on Win
     - [2.3.1. Write-Log](#231-write-log)
     - [2.3.2. Deploy-DriveMappings](#232-deploy-drivemappings)
     - [2.3.3. Deploy-RegistryKeys](#233-deploy-registrykeys)
+    - [2.3.4. Deploy-Executables](#234-deploy-executables)
+    - [2.3.5. Deploy-FileActions](#235-deploy-fileactions)
+    - [2.3.6. Deploy-Printers (TBA. Roadmap)](#236-deploy-printers-tba-roadmap)
   - [2.4. Execution](#24-execution)
   - [2.5. Error Handling](#25-error-handling)
   - [2.6. Dependencies](#26-dependencies)
@@ -33,7 +33,6 @@ This tool automates the deployment of configurations during logon actions on Win
 
 ## 2.2. Roadmap
 - Printer mapping
-- Executions (Start-Process)
 
 ## 2.3. Functions
 
@@ -48,7 +47,7 @@ This tool automates the deployment of configurations during logon actions on Win
 - Retrieves the current user's group memberships using Microsoft Graph.
 - Maps or removes network drives based on the user's group memberships and the configuration.
 - Logs actions such as adding, removing, or skipping drive mappings.
-- Priority handling for situations with conflicting actions (e.g. same drive letters)
+- Priority handling for situations with conflicting actions (e.g. same drive letters).
 
 ### 2.3.3. Deploy-RegistryKeys
 
@@ -56,7 +55,27 @@ This tool automates the deployment of configurations during logon actions on Win
 - Retrieves the current user's group memberships using Microsoft Graph.
 - Adds, updates, or removes registry keys based on the user's group memberships and the configuration.
 - Logs actions such as creating, setting, or removing registry keys.
-- Priority handling for situations with conflicting actions (e.g. same registry key or values)
+- Priority handling for situations with conflicting actions (e.g. same registry key or values).
+
+### 2.3.4. Deploy-Executables
+- Reads application executables from `Config.xml`.
+- Retrieves the current user's group memberships using Microsoft Graph.
+- Launched applications (executables) in user context.
+- Logs actions such as applications being launched.
+- Supports File/Launch arguments.
+
+### 2.3.5. Deploy-FileActions
+- Reads file-actions from `Config.xml`.
+- Retrieves the current user's group memberships using Microsoft Graph.
+- Can copy/move/delete and rename files based 
+- Logs actions such as renamed, deleted, moved or copied files
+
+### 2.3.6. Deploy-Printers (TBA. Roadmap)
+- Reads printer-actions such as add or remove from `Config.xml`.
+- Retrieves the current user's group memberships using Microsoft Graph.
+- Add or remove printer queues from user session
+- Logs actions such as which printer is being added or removed
+
 
 ## 2.4. Execution
 
