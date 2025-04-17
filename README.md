@@ -16,12 +16,11 @@ This tool automates the deployment of configurations during logon actions on Win
     - [2.3.3. Deploy-RegistryKeys](#233-deploy-registrykeys)
     - [2.3.4. Deploy-Executables](#234-deploy-executables)
     - [2.3.5. Deploy-FileActions](#235-deploy-fileactions)
-    - [2.3.6. Deploy-Printers (TBA. Roadmap)](#236-deploy-printers-tba-roadmap)
+    - [2.3.6. Deploy-Printers](#236-deploy-printers)
   - [2.4. Execution](#24-execution)
-  - [2.5. Error Handling](#25-error-handling)
-  - [2.6. Dependencies](#26-dependencies)
-  - [2.7. Installation](#27-installation)
-  - [2.8. Contributing](#28-contributing)
+  - [2.5. Dependencies](#25-dependencies)
+  - [2.6. Installation](#26-installation)
+  - [2.7. Contributing](#27-contributing)
 
 
 
@@ -32,49 +31,73 @@ This tool automates the deployment of configurations during logon actions on Win
 - **Authentication**: Connects to Microsoft Graph using `TenantId`, `AppId`, and `AppSecret` from the configuration file.
 
 ## 2.2. Roadmap
-- Printer mapping
+- TBA
 
 ## 2.3. Functions
 
 ### 2.3.1. Write-Log
 
-- Logs messages to a user-specific log file located at `C:\ProgramData\CUEM\Logging\<username>\User.log`.
-- Ensures the log directory exists and appends timestamped log entries.
+- **Purpose:** Logs messages to a user-specific log file located at `C:\ProgramData\CUEM\Logging\<username>\User.log`.
+
+- **Key Features:** Ensures the log directory exists and appends timestamped log entries.
+
 
 ### 2.3.2. Deploy-DriveMappings
 
-- Reads drive mapping configurations from `Config.xml`.
-- Retrieves the current user's group memberships using Microsoft Graph.
-- Maps or removes network drives based on the user's group memberships and the configuration.
-- Logs actions such as adding, removing, or skipping drive mappings.
-- Priority handling for situations with conflicting actions (e.g. same drive letters).
+**Purpose**: Maps or removes network drives based on configuration.
+
+- **Key Features:**
+  - Reads drive mapping configurations from `Config.xml`.
+  - Checks user group memberships to determine eligibility.
+  - Supports adding and removing drive mappings.
+  - Logs success or failure of each operation.
+  - Priority handling for situations with conflicting actions (e.g. same drive letters).
 
 ### 2.3.3. Deploy-RegistryKeys
 
-- Reads registry key configurations from `Config.xml`.
-- Retrieves the current user's group memberships using Microsoft Graph.
-- Adds, updates, or removes registry keys based on the user's group memberships and the configuration.
-- Logs actions such as creating, setting, or removing registry keys.
-- Priority handling for situations with conflicting actions (e.g. same registry key or values).
+**Purpose:**  Adds or removes registry keys based on configuration.
+
+- **Key Features:**
+  - Reads registry configurations from `Config.xml`.
+  - Checks user group memberships to determine eligibility.
+  - Ensures registry keys exist before setting values.
+  - Supports adding and removing registry keys.
+  - Logs success or failure of each operation.
 
 ### 2.3.4. Deploy-Executables
-- Reads application executables from `Config.xml`.
-- Retrieves the current user's group memberships using Microsoft Graph.
-- Launched applications (executables) in user context.
-- Logs actions such as applications being launched.
-- Supports File/Launch arguments.
+
+**Purpose:** Starts executables with optional arguments based on configuration.
+
+- **Key Features:**
+  - Reads executable configurations from `Config.xml`.
+  - Checks user group memberships to determine eligibility.
+  - Supports starting executables with or without arguments.
+  - Logs success or failure of each operation.
+
 
 ### 2.3.5. Deploy-FileActions
-- Reads file-actions from `Config.xml`.
-- Retrieves the current user's group memberships using Microsoft Graph.
-- Can copy/move/delete and rename files based 
-- Logs actions such as renamed, deleted, moved or copied files
 
-### 2.3.6. Deploy-Printers (TBA. Roadmap)
-- Reads printer-actions such as add or remove from `Config.xml`.
-- Retrieves the current user's group memberships using Microsoft Graph.
-- Add or remove printer queues from user session
-- Logs actions such as which printer is being added or removed
+**Purpose:** Performs file operations (copy, delete, rename, move) based on configuration.
+
+- **Key Features:**
+  - Reads file action configurations from `Config.xml`.
+  - Checks user group memberships to determine eligibility.
+  - Supports the following actions:
+    - Copy: Copies files to a destination.
+    - Delete: Deletes files.
+    - Rename: Renames files.
+    - Move: Moves files to a new location. 
+  - Logs success or failure of each operation.
+
+### 2.3.6. Deploy-Printers
+
+**Purpose:** Adds or removes printers based on configuration.
+
+- **Key Features:**
+  - Reads printer configurations from `Config.xml`.
+  - Checks user group memberships to determine eligibility.
+  - Supports adding and removing printers.
+  - Logs success or failure of each operation.
 
 
 ## 2.4. Execution
@@ -84,19 +107,11 @@ The script executes the following tasks sequentially:
 1. **Drive Mapping**: Calls `Deploy-DriveMappings` to manage network drives.
 2. **Registry Key Management**: Calls `Deploy-RegistryKeys` to manage registry keys.
 3. **Process execution**: Calls `Deploy-ProcessExecution` to manage process executions.
-4. **Printer mapping**: Calls `Deploy-PrinterMappings` to manage printer mappings.
+4. **File Actions**: Calls `Deploy-FileActions` to manage file actions 
+5. **Printer mapping**: Calls `Deploy-PrinterMappings` to manage printer mappings.
 
-## 2.5. Error Handling
 
-The script includes error handling for:
-
-- Missing or invalid configuration files.
-- Failures in Microsoft Graph API calls.
-- Issues with drive mappings or registry key operations.
-
-Errors are logged using the `Write-Log` function.
-
-## 2.6. Dependencies
+## 2.5. Dependencies
 
 Requires the following PowerShell modules:
 
@@ -107,8 +122,8 @@ Requires the following PowerShell modules:
 > [!NOTE]
 > Installation of these modules is being handled by Cuem-core.ps1 or either an installation method (e.g. MSI). This has yet to be defined.
 
-## 2.7. Installation
+## 2.6. Installation
 To be defined
 
-## 2.8. Contributing
+## 2.7. Contributing
 Contributions are welcome! Please open an issue or reach out to me to discuss your ideas.
